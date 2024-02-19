@@ -22,6 +22,7 @@ public class PortalUser {
     String password;
     long contactNo;
     String address;
+    String type;
 
 
 

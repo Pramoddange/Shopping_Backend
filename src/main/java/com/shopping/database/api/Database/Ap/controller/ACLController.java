@@ -17,14 +17,14 @@ public class ACLController {
     @PostMapping("/add")
     public void registerAccess(@RequestBody AddAccessDTO addAccessDTO){
         ACL acl=new ACL();
-        acl.setRequester(addAccessDTO.getRequestor());
+        acl.setRequester(addAccessDTO.getRequester());
         acl.setOperation(addAccessDTO.getOperation());
         aclRepository.save(acl);
 
     }
     @GetMapping("/validate")
-    public ResponseEntity isAccessAvailable(@RequestParam String requestor, @RequestParam String operation){
-        ACL acl = aclRepository.getConfiguration(requestor, operation);
+    public ResponseEntity isAccessAvailable(@RequestParam String requester, @RequestParam String operation){
+        ACL acl = aclRepository.getConfiguration(requester,operation);
         if(acl != null){
             return new ResponseEntity<>(new ACLConfigDTO(true), HttpStatus.OK);
         }else{

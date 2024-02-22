@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 @Repository
 public interface ACLRepository extends JpaRepository<ACL, UUID> {
-    @Query(value = "select * from acl where requestor =:requestor and operation =:operation", nativeQuery = true)
-    public ACL getConfiguration(String requestor, String operation);
+    @Query(value = "select * from acl where requester=:requester and operation =:operation", nativeQuery = true)
+    public ACL getConfiguration(String requester, String operation);
 }

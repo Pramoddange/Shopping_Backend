@@ -1,15 +1,16 @@
-package com.shopping.database.api.Database.Ap.DTO.Response;
+package com.Shopping.Backend.User.User.API.DTO.GeneralUseDTO;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class ACLConfigDTO {
-    boolean validConfig;
 
+public class GeneralMessageDTO {
+    String message;
 }

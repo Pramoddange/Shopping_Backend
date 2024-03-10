@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Product {
     @Id
-    UUID id;
+    UUID productId;
     String productName;
     int quantity;
     int price;

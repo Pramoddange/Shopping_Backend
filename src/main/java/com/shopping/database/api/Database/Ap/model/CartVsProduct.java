@@ -1,14 +1,11 @@
 package com.shopping.database.api.Database.Ap.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
 
-@Table
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -20,4 +17,6 @@ public class CartVsProduct {
     UUID id;
     UUID cartId;
     UUID productId;
+    int totalPrice;
+    int totalQuantity;
 }

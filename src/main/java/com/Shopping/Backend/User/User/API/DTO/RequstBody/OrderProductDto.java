@@ -10,11 +10,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SellerProductRegistrationDTO {
-    UUID id;
-    String productName;
-    int price;
+public class OrderProductDto {
+
+    UUID productId;
     int quantity;
-    UUID sellerId;
-    String productType;
 }

@@ -2,6 +2,7 @@ package com.Shopping.Backend.User.User.API.controller;
 
 import com.Shopping.Backend.User.User.API.DTO.GeneralUseDTO.GeneralMessageDTO;
 import com.Shopping.Backend.User.User.API.DTO.RequstBody.SellerProductRegistrationDTO;
+import com.Shopping.Backend.User.User.API.exception.MailNotSendException;
 import com.Shopping.Backend.User.User.API.exception.UnAuthorized;
 import com.Shopping.Backend.User.User.API.exception.UserDoesNotExistException;
 import com.Shopping.Backend.User.User.API.service.SellerService;
@@ -33,8 +34,8 @@ public class SellerController {
             return new ResponseEntity(new GeneralMessageDTO(unAuthorized.getMessage()), HttpStatus.UNAUTHORIZED);
         }catch(UserDoesNotExistException userDoesNotExistException){
             return new ResponseEntity(new GeneralMessageDTO(userDoesNotExistException.getMessage()), HttpStatus.NOT_FOUND);
-       // }catch (MailNotSendException mailNotSendException){
-         //   return new ResponseEntity(new GeneralMessageDTO(mailNotSendException.getMessage()), HttpStatus.BAD_GATEWAY);
+        }catch (MailNotSendException mailNotSendException){
+            return new ResponseEntity(new GeneralMessageDTO(mailNotSendException.getMessage()), HttpStatus.BAD_GATEWAY);
         }
         catch(RuntimeException runtimeException){
             return new ResponseEntity(new GeneralMessageDTO(runtimeException.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

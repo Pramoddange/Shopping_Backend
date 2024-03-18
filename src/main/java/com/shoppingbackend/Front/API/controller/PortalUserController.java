@@ -14,13 +14,14 @@ import java.util.Arrays;
 @RequestMapping("/user")
 public class PortalUserController {
     @PostMapping("/sign")
-    public ResponseEntity<UserSingUPDTO> signup(@RequestBody UserSingUPDTO userSingUPDTO){
-          String url="http://localhost:8080/db/user/add";
-        HttpHeaders headers=new HttpHeaders();
+    public ResponseEntity<UserSingUPDTO> signup(@RequestBody UserSingUPDTO userSingUPDTO) {
+        String url = "http://localhost:8080/db/user/add";
+        HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<UserSingUPDTO>entity=new HttpEntity<>(userSingUPDTO,headers);
-        RestTemplate restTemplate=new RestTemplate();
-        return restTemplate.exchange(url, HttpMethod.POST,entity, UserSingUPDTO.class);
+        HttpEntity<UserSingUPDTO> entity = new HttpEntity<>(userSingUPDTO, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.exchange(url, HttpMethod.POST, entity, UserSingUPDTO.class);
 
     }
+
 }

@@ -1,4 +1,4 @@
-package com.shoppingbackend.Front.API.DTO.requstDTO;
+package com.shoppingbackend.Front.API.DTO.responseDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,11 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class RequestPRODUCTDTO {
+@NoArgsConstructor
+public class BillProductDetailsDTO {
+    UUID productId;
     String productName;
-    int price;
     int quantity;
-    UUID sellerId;
-    String productType;
+    int price;
 }

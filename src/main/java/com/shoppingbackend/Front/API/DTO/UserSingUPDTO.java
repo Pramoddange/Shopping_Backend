@@ -1,5 +1,6 @@
 package com.shoppingbackend.Front.API.DTO;
 
+import com.shoppingbackend.Front.API.Enum.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,5 @@ public class UserSingUPDTO {
     String password;
     long contactNo;
     String address;
-    String type;
+    UserType type;
 }

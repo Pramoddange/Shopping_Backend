@@ -12,9 +12,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SellerProductRegistrationDTO {
+    UUID id;
     String productName;
     int price;
-    int qunatity;
+    int quantity;
     UUID sellerId;
     String productType;
 }

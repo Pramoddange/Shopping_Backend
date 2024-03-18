@@ -10,9 +10,9 @@ import com.shopping.database.api.Database.Ap.model.PortalUser;
 import com.shopping.database.api.Database.Ap.repository.OrderDetailedRepository;
 import com.shopping.database.api.Database.Ap.repository.OrderVsProductRepository;
 import com.shopping.database.api.Database.Ap.repository.PortalUserRepo;
+import com.shopping.database.api.Database.Ap.util.ShoppingLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +35,7 @@ public class OrderController {
         orderdetailed.setUser(portalUser);
         orderdetailed.setTotalPrice(addOrder.getTotalPrice());
         orderdetailed.setQuantity(addOrder.getQuantity());
+        orderdetailed.setDelivered(true);
         orderDetailedRepository.save(orderdetailed);
         orderResponse orderResponse=new orderResponse(addOrder.getUserId(),addOrder.getQuantity(),addOrder.getTotalPrice(),orderdetailed.isDelivered());
         return orderResponse;
@@ -51,17 +52,21 @@ public class OrderController {
         return new ResponseEntity(orderVsProductReqBody,HttpStatus.CREATED);
     }
     @GetMapping("/user/details")
-    public ResponseEntity getOrderDetailsByOrderId(@RequestParam UUID orderId,@RequestParam UUID userId){
+    public ResponseEntity getOrderDetailsByOrderId(@RequestParam UUID userId,@RequestParam UUID orderId){
+        ShoppingLogger.logger.info("Call recived getoderby orderId");
      OrderDetailed orderDetailed=orderDetailedRepository.getOrderByOrderId(orderId,userId);
            if(orderDetailed==null){
                return new ResponseEntity(null,HttpStatus.OK);
            }
+        ShoppingLogger.logger.info("Call recived forword");
         OrderUserDetailedResponseBody orderUserDetailedResponseBody=new OrderUserDetailedResponseBody();
            orderUserDetailedResponseBody.setUserId(userId);
            orderUserDetailedResponseBody.setOrderId(orderDetailed.getId());
            orderUserDetailedResponseBody.setTotalPrice(orderDetailed.getTotalPrice());
-           orderUserDetailedResponseBody.setTotalQuantity(orderDetailed.getQuantity());
+
+        ShoppingLogger.logger.info("Call recived completed");
            return new ResponseEntity(orderUserDetailedResponseBody,HttpStatus.OK);
+
     }
     @GetMapping("/details")
     public ResponseEntity getOrderVsProductId(@RequestParam UUID orderId){

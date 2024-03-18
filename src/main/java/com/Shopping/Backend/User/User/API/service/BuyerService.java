@@ -42,17 +42,18 @@ public class BuyerService {
         HttpHeaders httpHeaders=requesterUtil.getHeader();
         HttpEntity httpEntity=requesterUtil.createHttpEntity(orderMailDTO,httpHeaders);
         RestTemplate restTemplate=requesterUtil.getRestTemplate();
-        String url=ApiUrlUtil.mailApiURL+"buyer/order";
+        String url=ApiUrlUtil.mailApiURL+"/buyer/buyeProduct";
              ResponseEntity<MailResponseDto> respMail= restTemplate.exchange(url,HttpMethod.POST,httpEntity, MailResponseDto.class);
             return respMail.getBody();
     }
     public Bill orderProduct(OrderDto orderDto)  {
         ShoppingLogger.logger.info("Inside Service Layer will call db api to get all product details");
         List<OrderProductDto> orderProducts = orderDto.getOrderProductDtoList();//user
-        List<ProductResponseBody> products = new ArrayList<>();//database
         UserDTO user=getUser(orderDto.getUserId());
         int totalPrice = 0;
         int totalQuantity = 0;
+        //database
+        List<ProductResponseBody> products = new ArrayList<>();
         for (OrderProductDto orderProductDto : orderProducts) {
             UUID productId = orderProductDto.getProductId();
             // We will call db api to get specific product details
@@ -97,8 +98,9 @@ public class BuyerService {
             //update product quantity
             ShoppingLogger.logger.info("Got all the products update quantity in the system");
             int updateQuantity = dBQuantity - userQuantity;
-            String proDbUrl = ApiUrlUtil.dbApiURL + "/product/update?" + "productId" + productId.toString() + "&quantity" + updateQuantity;
-            HttpEntity edf = requesterUtil.createHttpEntity(orderHeader);
+            HttpHeaders orderHeader1 = requesterUtil.getHeader();
+            String proDbUrl = ApiUrlUtil.dbApiURL + "/product/update" +"?"+ "productId=" + productId+ "&quantity=" + updateQuantity;
+            HttpEntity edf = requesterUtil.createHttpEntity(orderHeader1);
             ResponseEntity res = opRequst.exchange(proDbUrl, HttpMethod.POST, edf,Object.class);
 
         }
@@ -129,13 +131,13 @@ public class BuyerService {
         HttpHeaders httpHeaders=requesterUtil.getHeader();
         HttpEntity httpEntity=requesterUtil.createHttpEntity(httpHeaders);
         RestTemplate restTemplate=requesterUtil.getRestTemplate();
-        String url=ApiUrlUtil.dbApiURL+"order/user/details?"+"userID"+userId.toString()+"&orderId"+orderId.toString();
+        String url=ApiUrlUtil.dbApiURL+"/order/user/details"+"?"+"userID="+userId+"&orderId="+orderId;
         ResponseEntity<OrderResponseBody> responseOrder= restTemplate.exchange(url,HttpMethod.GET,httpEntity, OrderResponseBody.class);
        if(responseOrder.getBody()==null){
       throw new UnAuthorized("User are not unauthorised to by product");
        }
         RestTemplate restTemplate1=requesterUtil.getRestTemplate();
-        String urlOrder=ApiUrlUtil.dbApiURL+"order/details?"+"orderId"+orderId.toString();
+        String urlOrder=ApiUrlUtil.dbApiURL+"/order/details?"+"orderId"+orderId.toString();
         ResponseEntity responseDetails= restTemplate1.exchange(urlOrder,HttpMethod.GET,httpEntity,OrderVSProduct.class);
          Object orderProduct=responseOrder.getBody();
          return orderProduct;

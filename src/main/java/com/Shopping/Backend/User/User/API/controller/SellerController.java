@@ -6,6 +6,9 @@ import com.Shopping.Backend.User.User.API.exception.MailNotSendException;
 import com.Shopping.Backend.User.User.API.exception.UnAuthorized;
 import com.Shopping.Backend.User.User.API.exception.UserDoesNotExistException;
 import com.Shopping.Backend.User.User.API.service.SellerService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +24,20 @@ public class SellerController {
     @Autowired
     SellerService sellerService;
 
-
+    @ApiResponse(
+            responseCode = "201",
+            description = "This method invokes a seller kind of user to register a product",
+            content = {
+                    @Content(schema = @Schema(implementation = SellerProductRegistrationDTO.class), mediaType = "application/json")
+            }
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "User does not have access",
+            content = {
+                    @Content(schema = @Schema(implementation = GeneralMessageDTO.class), mediaType = "application/json")
+            }
+    )
     @PostMapping("/product/register")
     public ResponseEntity registerProduct(@RequestBody SellerProductRegistrationDTO sellerProductRegistrationDTO){
         // Database API -> Product will get register in the database;
